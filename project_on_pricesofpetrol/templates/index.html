@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Petrol Price Predictor</title>
+    <style>
+        /* Modern styling with visible background */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://t4.ftcdn.net/jpg/06/99/44/57/360_F_699445786_lybHsr17v7VO9cvi50fOo0XnZp6sxa8s.jpg') no-repeat center center fixed;
+            background-size: cover;
+            animation: panBackground 60s linear infinite;
+            color: #2c3e50;
+        }
+
+        @keyframes panBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Adjusted overlay for better visibility */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4); /* Reduced opacity for more visibility */
+            z-index: -1;
+        }
+
+        /* Semi-transparent content card */
+        .content {
+            background: rgba(255, 255, 255, 0.85); /* Slightly more transparent */
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            backdrop-filter: blur(3px); /* Reduced blur */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Heading with better contrast */
+        h2 {
+            color: #2c3e50;
+            margin: 0 0 1.5rem 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Form styling */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 500;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        input[type="number"] {
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        input[type="submit"] {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: fit-content;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        /* Prediction result */
+        .prediction-result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(39, 174, 96, 0.15);
+            border-radius: 0.5rem;
+            color: #27ae60;
+            font-size: 1.2rem;
+            font-weight: 500;
+            border-left: 4px solid #27ae60;
+            text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .content {
+                padding: 1.5rem;
+                width: 85%;
+                backdrop-filter: blur(2px);
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            input[type="number"] {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h2>Petrol Price Predictor</h2>
+        
+        <form method="POST" action="/predict">
+            <label for="year">Enter Year (2000 to 2039):</label>
+            <input type="number" id="year" name="year" required placeholder="e.g., 2025" min="2000" max="2039">
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction_text %}
+            <div class="prediction-result">
+                {{ prediction_text }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
